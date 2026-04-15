@@ -49,6 +49,7 @@ struct ExtractedData {
 }
 
 #[derive(PartialEq, Clone, Copy, Debug)]
+#[cfg_attr(feature = "defmt", derive(defmt::Format))]
 enum ExtractionState {
     Idle,
     InProductsArray,

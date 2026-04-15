@@ -8,6 +8,7 @@ use crate::ujson;
 
 /// Errors that can occur during JSON parsing
 #[derive(Debug, PartialEq)]
+#[cfg_attr(feature = "defmt", derive(defmt::Format))]
 pub enum ParseError {
     /// An error bubbled up from the underlying tokenizer.
     TokenizerError(ujson::Error),

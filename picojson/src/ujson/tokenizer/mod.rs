@@ -5,6 +5,7 @@ use super::DepthCounter;
 
 /// Represents a position in the JSON input with byte offset, line, and column.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "defmt", derive(defmt::Format))]
 pub struct Position {
     /// Byte offset from the start of input
     pub pos: usize,
@@ -33,6 +34,7 @@ impl Default for Position {
 }
 
 #[derive(Debug, Clone)]
+#[cfg_attr(feature = "defmt", derive(defmt::Format))]
 struct ParseContext<T: BitBucket, D> {
     /// Keeps track of the depth of the object/array
     depth: D,
@@ -101,6 +103,7 @@ impl<T: BitBucket, D: DepthCounter> ParseContext<T, D> {
 }
 
 #[derive(Debug, Clone)]
+#[cfg_attr(feature = "defmt", derive(defmt::Format))]
 enum State {
     Idle,
     String { state: String, key: bool },
@@ -112,6 +115,7 @@ enum State {
 }
 
 #[derive(Debug, Clone)]
+#[cfg_attr(feature = "defmt", derive(defmt::Format))]
 enum String {
     Normal,
     Escaping,
@@ -122,6 +126,7 @@ enum String {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq)]
+#[cfg_attr(feature = "defmt", derive(defmt::Format))]
 enum Num {
     Sign,
     LeadingZero,
@@ -134,6 +139,7 @@ enum Num {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq)]
+#[cfg_attr(feature = "defmt", derive(defmt::Format))]
 enum TokenType {
     True,
     False,
@@ -141,12 +147,14 @@ enum TokenType {
 }
 
 #[derive(Debug, Clone, Copy)]
+#[cfg_attr(feature = "defmt", derive(defmt::Format))]
 struct TokenProgress {
     token_type: TokenType,
     position: usize, // Current position in token string
 }
 
 #[derive(Debug, Clone)]
+#[cfg_attr(feature = "defmt", derive(defmt::Format))]
 enum Token {
     True(TokenProgress),
     False(TokenProgress),
@@ -154,6 +162,7 @@ enum Token {
 }
 
 #[derive(Debug, Clone, PartialEq)]
+#[cfg_attr(feature = "defmt", derive(defmt::Format))]
 enum Object {
     Key,
     Colon,
@@ -162,6 +171,7 @@ enum Object {
 }
 
 #[derive(Debug, Clone, PartialEq)]
+#[cfg_attr(feature = "defmt", derive(defmt::Format))]
 enum Array {
     ItemOrEnd,
     CommaOrEnd,
@@ -169,6 +179,7 @@ enum Array {
 
 /// Token types that can be emitted during parsing.
 #[derive(Debug, Clone, Copy, PartialEq)]
+#[cfg_attr(feature = "defmt", derive(defmt::Format))]
 pub enum EventToken {
     True,
     False,
@@ -193,6 +204,7 @@ pub enum EventToken {
 
 /// Events emitted by the tokenizer during JSON parsing.
 #[derive(Debug, Clone, PartialEq)]
+#[cfg_attr(feature = "defmt", derive(defmt::Format))]
 pub enum Event {
     Begin(EventToken),
     End(EventToken),
@@ -235,6 +247,7 @@ impl PartialEq for Error {
 
 /// Kinds of errors that can occur during tokenization.
 #[derive(PartialEq, Debug)]
+#[cfg_attr(feature = "defmt", derive(defmt::Format))]
 pub enum ErrKind {
     EmptyStream,
     UnfinishedStream,
@@ -285,6 +298,21 @@ impl core::fmt::Display for Error {
 impl core::fmt::Debug for Error {
     fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         write!(
+            f,
+            "{:?}({}) at line {} col {} (pos {})",
+            self.kind,
+            self.character as char,
+            self.position.line,
+            self.position.column,
+            self.position.pos
+        )
+    }
+}
+
+#[cfg(feature = "defmt")]
+impl defmt::Format for Error {
+    fn format(&self, f: defmt::Formatter) {
+        defmt::write!(
             f,
             "{:?}({}) at line {} col {} (pos {})",
             self.kind,

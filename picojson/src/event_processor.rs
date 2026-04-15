@@ -201,6 +201,7 @@ impl<T: ujson::BitBucket, C: ujson::DepthCounter> Default for ParserCore<T, C> {
 
 /// Enum to specify when escape sequences should be processed
 #[derive(Debug, Clone, Copy, PartialEq)]
+#[cfg_attr(feature = "defmt", derive(defmt::Format))]
 pub enum EscapeTiming {
     /// Process simple escape sequences on Begin events (SliceParser)
     OnBegin,
@@ -210,6 +211,7 @@ pub enum EscapeTiming {
 
 /// Result of processing a tokenizer event
 #[derive(Debug)]
+#[cfg_attr(feature = "defmt", derive(defmt::Format))]
 pub enum EventResult<'a, 'b> {
     /// Event processing is complete, return this event to the user
     Complete(Event<'a, 'b>),

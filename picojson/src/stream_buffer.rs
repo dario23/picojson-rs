@@ -2,6 +2,7 @@
 
 /// Error types for StreamBuffer operations
 #[derive(Debug, PartialEq)]
+#[cfg_attr(feature = "defmt", derive(defmt::Format))]
 pub enum StreamBufferError {
     /// Buffer is full and cannot accommodate more data
     BufferFull,

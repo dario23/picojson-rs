@@ -6,6 +6,7 @@ use crate::{ujson, JsonNumber, String};
 
 /// Events produced by JSON parsers
 #[derive(Debug, PartialEq)]
+#[cfg_attr(feature = "defmt", derive(defmt::Format))]
 pub enum Event<'a, 'b> {
     /// The start of an object (e.g., `{`).
     StartObject,
@@ -31,6 +32,7 @@ pub enum Event<'a, 'b> {
 
 /// Specific unexpected states that can occur during parsing.
 #[derive(Debug, PartialEq)]
+#[cfg_attr(feature = "defmt", derive(defmt::Format))]
 pub enum UnexpectedState {
     /// A generic state mismatch occurred.
     StateMismatch,
@@ -46,6 +48,7 @@ pub enum UnexpectedState {
 
 /// Internal parser state tracking
 #[derive(Debug, PartialEq)]
+#[cfg_attr(feature = "defmt", derive(defmt::Format))]
 pub enum State {
     None,
     Key(usize),
@@ -220,6 +223,7 @@ pub trait DataSource<'input, 'scratch> {
 /// This enum cleanly separates the two different content sources without
 /// coupling the DataSource trait to high-level JSON types.
 #[derive(Debug, PartialEq)]
+#[cfg_attr(feature = "defmt", derive(defmt::Format))]
 pub enum ContentPiece<'input, 'scratch> {
     /// Content borrowed directly from the input buffer (zero-copy)
     Input(&'input [u8]),

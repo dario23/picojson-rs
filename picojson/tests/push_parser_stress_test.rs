@@ -12,6 +12,7 @@ use picojson::{
 
 /// Owned event representation for comparison
 #[derive(Debug, Clone, PartialEq)]
+#[cfg_attr(feature = "defmt", derive(defmt::Format))]
 enum OwnedEvent {
     StartObject,
     EndObject,

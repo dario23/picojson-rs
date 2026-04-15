@@ -2,6 +2,7 @@
 
 /// Error type for SliceInputBuffer operations.
 #[derive(Debug, PartialEq)]
+#[cfg_attr(feature = "defmt", derive(defmt::Format))]
 pub enum Error {
     /// Reached the end of input data.
     ReachedEnd,
@@ -12,6 +13,7 @@ pub enum Error {
 /// A buffer that manages input data and current parsing position.
 /// This encapsulates the data slice and position that are always used together.
 #[derive(Debug)]
+#[cfg_attr(feature = "defmt", derive(defmt::Format))]
 pub struct SliceInputBuffer<'a> {
     data: &'a [u8],
     pos: usize,
