@@ -143,7 +143,6 @@ pub type ArrayBitStack<const N: usize, T, D> = BitStackStruct<ArrayBitBucket<N, 
 ///
 /// Use the [ArrayBitStack] convenience wrapper to create this.
 #[derive(Debug)]
-#[cfg_attr(feature = "defmt", derive(defmt::Format))]
 pub struct ArrayBitBucket<const N: usize, T>(pub [T; N]);
 
 impl<const N: usize, T: Default + Copy> Default for ArrayBitBucket<N, T> {

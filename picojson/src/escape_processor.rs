@@ -194,7 +194,6 @@ impl EscapeProcessor {
 /// Provides a common interface for collecting the 4 hex digits in \uXXXX sequences.
 /// Supports surrogate pairs by tracking pending high surrogates.
 #[derive(Debug)]
-#[cfg_attr(feature = "defmt", derive(defmt::Format))]
 pub struct UnicodeEscapeCollector {
     /// Buffer to collect the 4 hex digits
     hex_buffer: [u8; 4],

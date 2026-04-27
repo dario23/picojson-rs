@@ -46,7 +46,7 @@ jsontest-suite-commit = "1ef36fa01286573e846ac449e8683f8833c5b26a"
 json-checker-url = "http://www.json.org/JSON_checker/test.zip"
 
 [dependencies]
-defmt = { version = "1.0.1", optional = true }
+defmt = { version = "1.0", optional = true }
 
 [build-dependencies]
 ureq = { version = "2.0", optional = true }

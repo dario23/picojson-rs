@@ -4,7 +4,6 @@
 
 /// A custom error type for const integer parsing.
 #[derive(Debug, PartialEq, Eq, Clone)]
-#[cfg_attr(feature = "defmt", derive(defmt::Format))]
 pub enum ConstParseIntegerError {
     /// The input byte slice was empty.
     Empty,
